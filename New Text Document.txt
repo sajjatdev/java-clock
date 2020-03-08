@@ -1,0 +1,103 @@
+package clock;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+public class Clock extends JFrame {
+
+    private Container con;
+    private JLabel label, label1;
+    private Font font, font1;
+
+    Clock() {
+        main_layout();
+        clcok();
+    }
+
+    public static void main(String[] args) {
+
+        Clock ob = new Clock();
+        ob.setVisible(true);
+
+    }
+
+    private void main_layout() {
+
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBounds(500, 500, 500, 300);
+        this.setTitle("Clock");
+
+        con = this.getContentPane();
+        con.setLayout(null);
+        con.setBackground(Color.BLACK);
+
+        font = new Font("Arial", Font.BOLD, 50);
+        font1 = new Font("Arial", Font.BOLD, 30);
+
+        label = new JLabel();
+        label.setBounds(80, 10, 450, 100);
+        label.setFont(font);
+        label.setForeground(Color.yellow);
+        con.add(label);
+
+        label1 = new JLabel();
+        label1.setBounds(150, 100, 450, 100);
+        label1.setFont(font1);
+        label1.setForeground(Color.yellow);
+        con.add(label1);
+
+    }
+
+    private void clcok() {
+
+        Thread ob = new Thread() {
+
+            public void run() {
+                while (true) {
+                     try {
+
+                    Calendar con = new GregorianCalendar();
+
+                    int year = con.get(Calendar.YEAR);
+                    int month = con.get(Calendar.MONTH);
+                    int day = con.get(Calendar.DAY_OF_MONTH);
+                    
+                    int hour = con.get(Calendar.HOUR);
+                    int minute = con.get(Calendar.MINUTE);
+                    int second = con.get(Calendar.SECOND);
+                    int am_pm = con.get(Calendar.AM_PM);
+                    
+                    String value;
+                    if (am_pm==1) {
+                        value="PM";
+                        
+                    }
+                    else{
+                       value="AM";
+                    }
+                    
+                   label.setText(hour+":"+minute+":"+second+" "+value);
+                    label1.setText(year+"/"+month+"/"+day);
+                    sleep(1000);
+                        
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(con, e);
+                }
+            
+                }
+                    
+                }
+
+               
+
+        };
+        ob.start();
+    }
+
+}
